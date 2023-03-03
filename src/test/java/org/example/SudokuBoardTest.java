@@ -99,6 +99,21 @@ class SudokuBoardTest {
         test_board.board[8][0]=8;
         assertFalse(test_board.validate(test_board.get_column(0)));
 
+        test_board.board[0][1]=4;
+        test_board.board[1][1]=5;
+        test_board.board[2][1]=6;
+        test_board.board[0][2]=7;
+        test_board.board[1][2]=8;
+        test_board.board[2][2]=9;
+        assertTrue(test_board.validate(test_board.cell_to_arr(test_board.get_cell(0))));
+
+        test_board.board[0][1]=1;
+        assertFalse(test_board.validate(test_board.cell_to_arr(test_board.get_cell(0))));
+
+
+
+
+
     }
 
     @Test
