@@ -133,6 +133,15 @@ class SudokuBoard {
     }
 
 
+    boolean validate_full(){
+        for(int i=0;i<9;i++){
+            if(!validate(get_column(i))){return false;};
+            if(!validate(get_row(i))){return false;};
+            if(!validate(cell_to_arr(get_cell(i)))){return false;};
+
+        }
+        return true;
+    }
 
 
 
