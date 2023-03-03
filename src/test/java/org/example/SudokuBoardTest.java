@@ -99,10 +99,18 @@ class SudokuBoardTest {
         test_board.board[8][0]=8;
         assertFalse(test_board.validate(test_board.get_column(0)));
 
-
-
-
-
     }
+
+    @Test
+    void cell_to_arr(){
+        test_board.board[0][0]=1;
+        test_board.board[1][0]=1;
+        test_board.board[0][1]=1;
+
+        int[] arr = test_board.cell_to_arr(test_board.get_cell(0));
+        assertEquals(Arrays.stream(arr).sum(),3);
+    }
+
+
 
 }

@@ -86,6 +86,23 @@ class SudokuBoard {
         return slice;
     }
 
+    int[] cell_to_arr(int[][] cell){
+        int[] arr = new int[size];
+        int index=0;
+        for(int[] row: cell){
+            for(int item: row){
+                arr[index] = item;
+                index++;
+            }
+
+
+        }
+
+        return arr;
+
+    }
+
+
     int[] get_column(int x_cordinate){
         int[] column = new int[size];
         for(int i=0;i<size;i++) {
@@ -111,10 +128,11 @@ class SudokuBoard {
                     return false;
                 }
             }
-
         }
         return true;
     }
+
+
 
 
 
