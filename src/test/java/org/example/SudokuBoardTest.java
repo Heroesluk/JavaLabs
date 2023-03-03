@@ -79,4 +79,30 @@ class SudokuBoardTest {
         return val;
     }
 
+    @Test
+    void validate(){
+
+        assertTrue(test_board.validate(test_board.get_column(0)));
+
+        test_board.board[0][0]=1;
+        test_board.board[1][0]=2;
+        test_board.board[2][0]=3;
+        test_board.board[3][0]=4;
+        test_board.board[4][0]=5;
+        test_board.board[5][0]=6;
+        test_board.board[6][0]=7;
+        test_board.board[7][0]=8;
+        test_board.board[8][0]=9;
+
+        assertTrue(test_board.validate(test_board.get_column(0)));
+
+        test_board.board[8][0]=8;
+        assertFalse(test_board.validate(test_board.get_column(0)));
+
+
+
+
+
+    }
+
 }
