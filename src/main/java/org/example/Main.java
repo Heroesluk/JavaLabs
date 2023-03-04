@@ -9,6 +9,22 @@ public class Main {
 //        System.out.println(greet.greet("a"));
 
         SudokuBoard board1 = new SudokuBoard(9, 3);
+
+        int[][] test =
+                {{1,0,0,0,0,0,0,0,7},
+                 {0,0,0,0,0,0,0,0,0},
+                 {0,0,0,0,0,0,0,0,0},
+                 {0,0,0,0,0,0,0,0,0},
+                 {0,0,0,5,0,0,0,0,0},
+                 {0,0,0,0,0,0,0,0,0},
+                 {0,0,0,0,0,0,0,0,0},
+                 {0,0,0,0,0,0,0,0,0},
+                 {6,0,0,0,0,0,0,0,9}};
+
+        board1.fill_board(test);
+        board1.print_out2d(board1.board);
+
+
         board1.solveSudoku(board1.board, 0, 0);
         board1.print_out2d(board1.board);
 
@@ -75,6 +91,13 @@ class SudokuBoard {
             }
         }
     }
+
+    void fill_board(int[][] board) {
+        for (int y = 0; y < size; y++) {
+            System.arraycopy(board[y], 0, this.board[y], 0, size);
+        }
+    }
+
 
     void print_out2d(int[][] board2d) {
         for (int[] row : board2d) {
