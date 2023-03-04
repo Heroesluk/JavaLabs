@@ -179,19 +179,6 @@ class SudokuBoard {
         return true;
     }
 
-    boolean check_if_full() {
-        for (int[] row : board) {
-            for (int item : row) {
-                if (item == 0) {
-                    return false;
-                }
-            }
-        }
-
-        return true;
-    }
-
-
     boolean solveSudoku(int[][] grid,int row,
                         int col) {
 
