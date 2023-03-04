@@ -45,8 +45,8 @@ class SudokuBoardTest {
 
     @Test
     void constructor(){
-        assertEquals(test_board.board.length,9);
-        assertEquals(test_board.board[0].length,9);
+        assertEquals(test_board.copy_of_board().length,9);
+        assertEquals(test_board.copy_of_board()[0].length,9);
 
     }
 
@@ -54,7 +54,7 @@ class SudokuBoardTest {
     void get_cell(){
         // for each 3x3 cell, there's one number, coresponding to cell index
         test_board.fill_board(get_cell_input);
-        test_board.print_out2d(test_board.board);
+        test_board.print_out2d(test_board.copy_of_board());
 
         assertEquals(cell_sum(test_board.get_cell(0)),1);
         assertEquals(cell_sum(test_board.get_cell(1)),2);

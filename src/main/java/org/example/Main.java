@@ -1,4 +1,5 @@
 package org.example;
+
 import java.util.*;
 
 
@@ -11,22 +12,19 @@ public class Main {
         SudokuBoard board1 = new SudokuBoard(9, 3);
 
         int[][] test =
-                {{1,0,0,0,0,0,0,0,7},
-                 {0,0,0,0,0,0,0,0,0},
-                 {0,0,0,0,0,0,0,0,0},
-                 {0,0,0,0,0,0,0,0,0},
-                 {0,0,0,5,0,0,0,0,0},
-                 {0,0,0,0,0,0,0,0,0},
-                 {0,0,0,0,0,0,0,0,0},
-                 {0,0,0,0,0,0,0,0,0},
-                 {6,0,0,0,0,0,0,0,9}};
+                {{1, 0, 0, 0, 0, 0, 0, 0, 7},
+                        {0, 0, 0, 0, 0, 0, 0, 0, 0},
+                        {0, 0, 0, 0, 0, 0, 0, 0, 0},
+                        {0, 0, 0, 0, 0, 0, 0, 0, 0},
+                        {0, 0, 0, 5, 0, 0, 0, 0, 0},
+                        {0, 0, 0, 0, 0, 0, 0, 0, 0},
+                        {0, 0, 0, 0, 0, 0, 0, 0, 0},
+                        {0, 0, 0, 0, 0, 0, 0, 0, 0},
+                        {6, 0, 0, 0, 0, 0, 0, 0, 9}};
 
         board1.fill_board(test);
-        board1.print_out2d(board1.board);
-
-
-        board1.solveSudoku(board1.board, 0, 0);
-        board1.print_out2d(board1.board);
+        board1.print_out2d();
+        board1.solve();
 
 
     }
@@ -59,7 +57,7 @@ class SudokuBoard {
     // 0 1 2
     // 3 4 5
     // 6 7 8
-    int[][] board;
+    private int[][] board;
     int size;
     int cells_per_row;
     int cell_size = 3;
@@ -73,16 +71,25 @@ class SudokuBoard {
     }
 
 
-    int[] random_order(){
+    int[][] copy_of_board() {
+        int[][] cboard = new int[board.length][];
+        for (int i = 0; i < board.length; i++)
+            cboard[i] = board[i].clone();
+
+        return cboard;
+    }
+
+    int[] random_order() {
         ArrayList<Integer> list = new ArrayList<Integer>();
 
         Random generator = new Random();
-        for(int i=1;i<10;i++){
+        for (int i = 1; i < 10; i++) {
             list.add(i);
         }
         Collections.shuffle(list);
-        return list.stream().mapToInt(i -> i ).toArray();
+        return list.stream().mapToInt(i -> i).toArray();
     }
+
 
     void fill_board() {
         for (int y = 0; y < size; y++) {
@@ -107,6 +114,16 @@ class SudokuBoard {
             System.out.print("\n");
         }
     }
+
+    void print_out2d() {
+        for (int[] row : board) {
+            for (int item : row) {
+                System.out.print(item);
+            }
+            System.out.print("\n");
+        }
+    }
+
 
     int[][] get_cell(int cell_index) {
         int y = (int) cell_index / cells_per_row;
@@ -185,6 +202,17 @@ class SudokuBoard {
         return true;
     }
 
+
+    void solve() {
+        if (solveSudoku(board, 0, 0)) {
+            print_out2d();
+        }
+
+
+    }
+
+    ;
+
     boolean solveSudoku(int[][] grid, int row,
                         int col) {
 
@@ -199,7 +227,7 @@ class SudokuBoard {
         if (grid[row][col] != 0)
             return solveSudoku(grid, row, col + 1);
 
-        for (int num: random_order()) {
+        for (int num : random_order()) {
             grid[row][col] = num;
             if (validate_full()) {
                 if (solveSudoku(grid, row, col + 1))
