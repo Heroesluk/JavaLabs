@@ -13,28 +13,31 @@ public class Main {
 
         SudokuBoard board1 = new SudokuBoard(4, 2);
 
-        board1.board[0][0] =1;
-        board1.board[0][1] =4;
-        board1.board[1][0] =3;
-        board1.board[1][1] =2;
-
-        board1.board[2][0] =4;
-        board1.board[2][1] =1;
-        board1.board[3][0] =2;
-        board1.board[3][1] =3;
-
-        board1.board[2][2] =2;
-        board1.board[2][3] =3;
-        board1.board[3][2] =4;
-        board1.board[3][3] =1;
-
-        board1.board[0][2] =3;
-        board1.board[0][3] =2;
-        board1.board[1][2] =1;
-        board1.board[1][3] =4;
+//        board1.board[0][0] =1;
+//        board1.board[0][1] =4;
+//        board1.board[1][0] =3;
+//        board1.board[1][1] =2;
+//
+//        board1.board[2][0] =4;
+//        board1.board[2][1] =1;
+//        board1.board[3][0] =2;
+//        board1.board[3][1] =3;
+//
+//        board1.board[2][2] =2;
+//        board1.board[2][3] =3;
+//        board1.board[3][2] =4;
+//        board1.board[3][3] =1;
+//
+//        board1.board[0][2] =3;
+//        board1.board[0][3] =2;
+//        board1.board[1][2] =1;
+//        board1.board[1][3] =4;
 
         board1.print_out2d(board1.board);
-        System.out.print(board1.validate_full());
+        board1.solve(0,0);
+
+        board1.solve(0,0);
+
 
 
 
@@ -182,9 +185,9 @@ class SudokuBoard {
             board[y][x] = i;
             if (validate_full()) {
                 found = true;
-                if (x == 8) {
+                if (x == 3) {
                     x = 0;
-                    if (y == 8) {
+                    if (y == 3) {
                         return;
                     }
                     y++;
@@ -194,6 +197,7 @@ class SudokuBoard {
                     x++;
                 }
                 print_out2d(board);
+                System.out.print('\n');
                 solve(x,y);
                 break;
             }
