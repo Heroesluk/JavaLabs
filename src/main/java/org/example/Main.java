@@ -71,9 +71,7 @@ class SudokuBoard {
     }
 
     int[] random_order() {
-        ArrayList<Integer> list = new ArrayList<Integer>();
-
-        Random generator = new Random();
+        ArrayList<Integer> list = new ArrayList<>();
         for (int i = 1; i < 10; i++) {
             list.add(i);
         }
@@ -117,7 +115,7 @@ class SudokuBoard {
 
 
     int[][] get_cell(int cell_index) {
-        int y = (int) cell_index / cells_per_row;
+        int y = cell_index / cells_per_row;
         int x = cell_index % cells_per_row;
         int[][] slice = new int[cell_size][cell_size];
 
@@ -154,9 +152,7 @@ class SudokuBoard {
 
     int[] get_row(int y_cordinate) {
         int[] row = new int[size];
-        for (int i = 0; i < size; i++) {
-            row[i] = board[y_cordinate][i];
-        }
+        System.arraycopy(board[y_cordinate], 0, row, 0, size);
         return row;
     }
 
@@ -183,11 +179,11 @@ class SudokuBoard {
             if (!validate(get_row(i))) {
                 return false;
             }
-            ;
+
             if (!validate(cell_to_arr(get_cell(i)))) {
                 return false;
             }
-            ;
+
 
         }
         return true;
@@ -202,7 +198,7 @@ class SudokuBoard {
 
     }
 
-    ;
+
 
     boolean solveSudoku(int[][] grid, int row, int col) {
 
