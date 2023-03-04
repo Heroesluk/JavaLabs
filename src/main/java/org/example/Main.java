@@ -1,8 +1,5 @@
 package org.example;
-
-import java.text.MessageFormat;
 import java.util.*;
-import java.util.stream.*;
 
 
 public class Main {
@@ -13,33 +10,10 @@ public class Main {
 
         SudokuBoard board1 = new SudokuBoard(9, 3);
 
-//        board1.board[0][0] =1;
-//        board1.board[0][1] =4;
-//        board1.board[1][0] =3;
-//        board1.board[1][1] =2;
-//
-//        board1.board[2][0] =4;
-//        board1.board[2][1] =1;
-//        board1.board[3][0] =2;
-//        board1.board[3][1] =3;
-//
-//        board1.board[2][2] =2;
-//        board1.board[2][3] =3;
-//        board1.board[3][2] =4;
-//        board1.board[3][3] =1;
-//
-//        board1.board[0][2] =3;
-//        board1.board[0][3] =2;
-//        board1.board[1][2] =1;
-//        board1.board[1][3] =4;
+        board1.print_out2d(board1.board);
+        board1.solveSudoku(board1.board, 0, 0);
 
         board1.print_out2d(board1.board);
-        board1.solveSudoku(board1.board, 0,0);
-
-        board1.print_out2d(board1.board);
-
-
-
 
 
     }
@@ -179,7 +153,7 @@ class SudokuBoard {
         return true;
     }
 
-    boolean solveSudoku(int[][] grid,int row,
+    boolean solveSudoku(int[][] grid, int row,
                         int col) {
 
         if (row == size - 1 && col == size)
@@ -196,7 +170,7 @@ class SudokuBoard {
         for (int num = 1; num < 10; num++) {
             grid[row][col] = num;
             if (validate_full()) {
-                if (solveSudoku(grid,row, col + 1))
+                if (solveSudoku(grid, row, col + 1))
                     return true;
             }
             grid[row][col] = 0;
