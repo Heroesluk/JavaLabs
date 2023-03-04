@@ -7,11 +7,7 @@ import java.util.Arrays;
 import static org.junit.jupiter.api.Assertions.*;
 
 class SudokuBoardTest {
-    SudokuBoard test_board = new SudokuBoard(9);
-
-
-
-
+    SudokuBoard test_board = new SudokuBoard(9,3);
 
     @Test
     void constructor(){
@@ -110,7 +106,9 @@ class SudokuBoardTest {
         test_board.board[0][1]=1;
         assertFalse(test_board.validate(test_board.cell_to_arr(test_board.get_cell(0))));
 
-
+        test_board.board[8][0]=9;
+        test_board.board[0][1]=4;
+        assertTrue(test_board.validate_full());
 
 
 
