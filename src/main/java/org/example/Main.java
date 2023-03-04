@@ -11,7 +11,7 @@ public class Main {
 //        Greeter greet = new Greeter(new MessageFormatter());
 //        System.out.println(greet.greet("a"));
 
-        SudokuBoard board1 = new SudokuBoard(4, 2);
+        SudokuBoard board1 = new SudokuBoard(9, 3);
 
 //        board1.board[0][0] =1;
 //        board1.board[0][1] =4;
@@ -34,9 +34,10 @@ public class Main {
 //        board1.board[1][3] =4;
 
         board1.print_out2d(board1.board);
-        board1.solve(0,0);
+        board1.solveSudoku(board1.board, 0,0);
 
-        board1.solve(0,0);
+        board1.print_out2d(board1.board);
+
 
 
 
@@ -74,7 +75,7 @@ class SudokuBoard {
     int[][] board;
     int size;
     int cells_per_row;
-    int cell_size = 2;
+    int cell_size = 3;
 
 
     SudokuBoard(int size, int cells_per_row) {
@@ -178,34 +179,43 @@ class SudokuBoard {
         return true;
     }
 
-    void solve(int x, int y) {
-        boolean found = false;
-
-        for (int i = 1; i < 10; i++) {
-            board[y][x] = i;
-            if (validate_full()) {
-                found = true;
-                if (x == 3) {
-                    x = 0;
-                    if (y == 3) {
-                        return;
-                    }
-                    y++;
-
+    boolean check_if_full() {
+        for (int[] row : board) {
+            for (int item : row) {
+                if (item == 0) {
+                    return false;
                 }
-                else {
-                    x++;
-                }
-                print_out2d(board);
-                System.out.print('\n');
-                solve(x,y);
-                break;
             }
-
-
         }
 
-
+        return true;
     }
 
+
+    boolean solveSudoku(int[][] grid,int row,
+                        int col) {
+
+        if (row == size - 1 && col == size)
+            return true;
+
+        if (col == size) {
+            row++;
+            col = 0;
+        }
+
+        if (grid[row][col] != 0)
+            return solveSudoku(grid, row, col + 1);
+
+        for (int num = 1; num < 10; num++) {
+            grid[row][col] = num;
+            if (validate_full()) {
+                if (solveSudoku(grid,row, col + 1))
+                    return true;
+            }
+            grid[row][col] = 0;
+        }
+        return false;
+    }
 }
+
+
