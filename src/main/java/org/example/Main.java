@@ -9,10 +9,7 @@ public class Main {
 //        System.out.println(greet.greet("a"));
 
         SudokuBoard board1 = new SudokuBoard(9, 3);
-
-        board1.print_out2d(board1.board);
         board1.solveSudoku(board1.board, 0, 0);
-
         board1.print_out2d(board1.board);
 
 
@@ -57,6 +54,18 @@ class SudokuBoard {
         this.cells_per_row = cells_per_row;
         board = new int[size][size];
         fill_board();
+    }
+
+
+    int[] random_order(){
+        ArrayList<Integer> list = new ArrayList<Integer>();
+
+        Random generator = new Random();
+        for(int i=1;i<10;i++){
+            list.add(i);
+        }
+        Collections.shuffle(list);
+        return list.stream().mapToInt(i -> i ).toArray();
     }
 
     void fill_board() {
@@ -167,7 +176,7 @@ class SudokuBoard {
         if (grid[row][col] != 0)
             return solveSudoku(grid, row, col + 1);
 
-        for (int num = 1; num < 10; num++) {
+        for (int num: random_order()) {
             grid[row][col] = num;
             if (validate_full()) {
                 if (solveSudoku(grid, row, col + 1))
