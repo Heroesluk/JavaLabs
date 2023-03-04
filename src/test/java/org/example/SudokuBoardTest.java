@@ -7,6 +7,8 @@ import java.util.Arrays;
 import static org.junit.jupiter.api.Assertions.*;
 
 class SudokuBoardTest {
+
+
     SudokuBoard test_board = new SudokuBoard(9,3);
 
     int[][] get_cell_input =
@@ -41,6 +43,16 @@ class SudokuBoardTest {
                     {0,0,1,0,0,0,0,3,3},
                     {0,0,1,0,8,0,0,2,4},
                     {0,0,1,0,0,0,0,1,6}};
+
+    int cell_sum(int[][] board2d){
+        int val = 0;
+        for(int[] row: board2d){
+            for(int item: row){
+                val+=item;
+            }
+        }
+        return val;
+    }
 
 
     @Test
@@ -85,16 +97,6 @@ class SudokuBoardTest {
 
     }
 
-
-    int cell_sum(int[][] board2d){
-        int val = 0;
-        for(int[] row: board2d){
-            for(int item: row){
-                val+=item;
-            }
-        }
-        return val;
-    }
 
     @Test
     void validate(){

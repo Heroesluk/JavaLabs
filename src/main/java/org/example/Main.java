@@ -11,16 +11,7 @@ public class Main {
 
         SudokuBoard board1 = new SudokuBoard(9, 3);
 
-        int[][] test =
-                {{1, 0, 0, 0, 0, 0, 0, 0, 7},
-                        {0, 0, 0, 0, 0, 0, 0, 0, 0},
-                        {0, 0, 0, 0, 0, 0, 0, 0, 0},
-                        {0, 0, 0, 0, 0, 0, 0, 0, 0},
-                        {0, 0, 0, 5, 0, 0, 0, 0, 0},
-                        {0, 0, 0, 0, 0, 0, 0, 0, 0},
-                        {0, 0, 0, 0, 0, 0, 0, 0, 0},
-                        {0, 0, 0, 0, 0, 0, 0, 0, 0},
-                        {6, 0, 0, 0, 0, 0, 0, 0, 9}};
+        int[][] test = {{1, 0, 0, 0, 0, 0, 0, 0, 7}, {0, 0, 0, 0, 0, 0, 0, 0, 0}, {0, 0, 0, 0, 0, 0, 0, 0, 0}, {0, 0, 0, 0, 0, 0, 0, 0, 0}, {0, 0, 0, 5, 0, 0, 0, 0, 0}, {0, 0, 0, 0, 0, 0, 0, 0, 0}, {0, 0, 0, 0, 0, 0, 0, 0, 0}, {0, 0, 0, 0, 0, 0, 0, 0, 0}, {6, 0, 0, 0, 0, 0, 0, 0, 9}};
 
         board1.fill_board(test);
         board1.print_out2d();
@@ -188,7 +179,7 @@ class SudokuBoard {
             if (!validate(get_column(i))) {
                 return false;
             }
-            ;
+
             if (!validate(get_row(i))) {
                 return false;
             }
@@ -213,25 +204,21 @@ class SudokuBoard {
 
     ;
 
-    boolean solveSudoku(int[][] grid, int row,
-                        int col) {
+    boolean solveSudoku(int[][] grid, int row, int col) {
 
-        if (row == size - 1 && col == size)
-            return true;
+        if (row == size - 1 && col == size) return true;
 
         if (col == size) {
             row++;
             col = 0;
         }
 
-        if (grid[row][col] != 0)
-            return solveSudoku(grid, row, col + 1);
+        if (grid[row][col] != 0) return solveSudoku(grid, row, col + 1);
 
         for (int num : random_order()) {
             grid[row][col] = num;
             if (validate_full()) {
-                if (solveSudoku(grid, row, col + 1))
-                    return true;
+                if (solveSudoku(grid, row, col + 1)) return true;
             }
             grid[row][col] = 0;
         }
