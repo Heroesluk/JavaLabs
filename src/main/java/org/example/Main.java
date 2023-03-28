@@ -14,7 +14,7 @@ public class Main {
         int[][] test = {{1, 0, 0, 0, 0, 0, 0, 0, 7}, {0, 0, 0, 0, 0, 0, 0, 0, 0}, {0, 0, 0, 0, 0, 0, 0, 0, 0}, {0, 0, 0, 0, 0, 0, 0, 0, 0}, {0, 0, 0, 5, 0, 0, 0, 0, 0}, {0, 0, 0, 0, 0, 0, 0, 0, 0}, {0, 0, 0, 0, 0, 0, 0, 0, 0}, {0, 0, 0, 0, 0, 0, 0, 0, 0}, {6, 0, 0, 0, 0, 0, 0, 0, 9}};
 
         board1.fill_board(test);
-        board1.print_out2d();
+        board1.print_out2d(board1.copy_of_board());
         board1.solve();
 
 
@@ -63,7 +63,7 @@ class SudokuBoard {
 
 
     int[][] copy_of_board() {
-        int[][] cboard = new int[board.length][];
+        int[]   [] cboard = new int[board.length][];
         for (int i = 0; i < board.length; i++)
             cboard[i] = board[i].clone();
 
@@ -192,10 +192,8 @@ class SudokuBoard {
 
     void solve() {
         if (solveSudoku(board, 0, 0)) {
-            print_out2d();
+            print_out2d(board);
         }
-
-
     }
 
 
