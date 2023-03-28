@@ -62,6 +62,16 @@ class SudokuBoard {
     }
 
 
+    int get(int posy, int posx){
+        return board[posy][posx];
+
+    }
+    void set(int posy, int posx, int num){
+        board[posy][posx] = num;
+
+
+    }
+
     boolean check_if_legal(int posy, int posx, int num) {
         board[posy][posx] = num;
         boolean test = validate_full();
@@ -200,51 +210,27 @@ class SudokuBoard {
 
 
     void solve() {
-        if (SudokuSolver.slv(this)) {
+        if (BacktrackingSudokuSolver.solve(this)) {
             print_out2d(board);
             System.out.println(validate_full());
         }
     }
 
 
-    static class SudokuSolver {
-        static int posx = 0;
-        static int posy = 0;
+    static class BacktrackingSudokuSolver implements SudokuSolver {
 
-        public static boolean solve(SudokuBoard board) {
-            for (int i = 1; i < 10; i++) {
-                board.board[posy][posx] = i;
-                if (posy == 1 && posx > 3) {
-                    System.out.println("ta");
-                }
-
-                if (board.validate_full()) {
-                    posx += 1;
-                    if (posx >= board.size) {
-                        posx = 0;
-                        posy += 1;
-                    }
-                    board.print_out2d();
-                    solve(board);
-                }
-            }
-
-            return true;
-
-        }
-
-        public static boolean slv(SudokuBoard brd) {
+        public static boolean solve(SudokuBoard brd) {
             for (int row = 0; row < brd.size; row++) {
                 for (int col = 0; col < brd.size; col++) {
-                    if (brd.board[row][col] == 0) {
+                    if (brd.get(row,col) == 0) {
                         for (int n = 1; n <= 9; n++) {
                             if (brd.check_if_legal(row, col, n)) {
-                                brd.board[row][col] = n;
+                                brd.set(row,col,n);
 
-                                if (slv(brd)) {
+                                if (solve(brd)) {
                                     return true;
                                 } else {
-                                    brd.board[row][col] = 0;
+                                    brd.set(row,col,n);
 
                                 }
 
@@ -258,6 +244,13 @@ class SudokuBoard {
         }
 
 
+    }
+
+
+    interface SudokuSolver{
+        static boolean solve(SudokuBoard brd) {
+            return false;
+        }
     }
 
 }
