@@ -62,8 +62,15 @@ class SudokuBoard {
     }
 
 
+    boolean check_if_legal(int posy, int posx, int num) {
+        board[posy][posx] = num;
+        boolean test = validate_full();
+        board[posy][posx] = 0;
+        return test;
+    }
+
     int[][] copy_of_board() {
-        int[]   [] cboard = new int[board.length][];
+        int[][] cboard = new int[board.length][];
         for (int i = 0; i < board.length; i++)
             cboard[i] = board[i].clone();
 
@@ -111,6 +118,8 @@ class SudokuBoard {
             }
             System.out.print("\n");
         }
+        System.out.print("\n");
+
     }
 
 
@@ -191,33 +200,66 @@ class SudokuBoard {
 
 
     void solve() {
-        if (solveSudoku(board, 0, 0)) {
+        if (SudokuSolver.slv(this)) {
             print_out2d(board);
+            System.out.println(validate_full());
         }
     }
 
 
+    static class SudokuSolver {
+        static int posx = 0;
+        static int posy = 0;
 
-    boolean solveSudoku(int[][] grid, int row, int col) {
+        public static boolean solve(SudokuBoard board) {
+            for (int i = 1; i < 10; i++) {
+                board.board[posy][posx] = i;
+                if (posy == 1 && posx > 3) {
+                    System.out.println("ta");
+                }
 
-        if (row == size - 1 && col == size) return true;
-
-        if (col == size) {
-            row++;
-            col = 0;
-        }
-
-        if (grid[row][col] != 0) return solveSudoku(grid, row, col + 1);
-
-        for (int num : random_order()) {
-            grid[row][col] = num;
-            if (validate_full()) {
-                if (solveSudoku(grid, row, col + 1)) return true;
+                if (board.validate_full()) {
+                    posx += 1;
+                    if (posx >= board.size) {
+                        posx = 0;
+                        posy += 1;
+                    }
+                    board.print_out2d();
+                    solve(board);
+                }
             }
-            grid[row][col] = 0;
+
+            return true;
+
         }
-        return false;
+
+        public static boolean slv(SudokuBoard brd) {
+            for (int row = 0; row < brd.size; row++) {
+                for (int col = 0; col < brd.size; col++) {
+                    if (brd.board[row][col] == 0) {
+                        for (int n = 1; n <= 9; n++) {
+                            if (brd.check_if_legal(row, col, n)) {
+                                brd.board[row][col] = n;
+
+                                if (slv(brd)) {
+                                    return true;
+                                } else {
+                                    brd.board[row][col] = 0;
+
+                                }
+
+                            }
+                        }
+                        return false;
+                    }
+                }
+            }
+            return true;
+        }
+
+
     }
+
 }
 
 
