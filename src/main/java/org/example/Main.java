@@ -3,24 +3,6 @@ package org.example;
 import java.util.*;
 
 
-public class Main {
-    public static void main(String[] args) {
-        System.out.println("Hello world!");
-//        Greeter greet = new Greeter(new MessageFormatter());
-//        System.out.println(greet.greet("a"));
-
-        SudokuBoard board1 = new SudokuBoard(9, 3);
-
-        int[][] test = {{1, 0, 0, 0, 0, 0, 0, 0, 7}, {0, 0, 0, 0, 0, 0, 0, 0, 0}, {0, 0, 0, 0, 0, 0, 0, 0, 0}, {0, 0, 0, 0, 0, 0, 0, 0, 0}, {0, 0, 0, 5, 0, 0, 0, 0, 0}, {0, 0, 0, 0, 0, 0, 0, 0, 0}, {0, 0, 0, 0, 0, 0, 0, 0, 0}, {0, 0, 0, 0, 0, 0, 0, 0, 0}, {6, 0, 0, 0, 0, 0, 0, 0, 9}};
-
-        board1.fill_board(test);
-        board1.print_out2d(board1.copy_of_board());
-        board1.solve();
-
-
-    }
-}
-
 class Greeter {
     MessageFormatter formatter;
 
@@ -42,6 +24,17 @@ class MessageFormatter {
     }
 }
 
+
+class PrintOut2d{
+    public static void print_out2d(int[][] board2d) {
+        for (int[] row : board2d) {
+            for (int item : row) {
+                System.out.print(item);
+            }
+            System.out.print("\n");
+        }
+    }
+}
 
 class SudokuBoard {
     //cells inside sudoku are numbered
@@ -109,27 +102,6 @@ class SudokuBoard {
         for (int y = 0; y < size; y++) {
             System.arraycopy(board[y], 0, this.board[y], 0, size);
         }
-    }
-
-
-    void print_out2d(int[][] board2d) {
-        for (int[] row : board2d) {
-            for (int item : row) {
-                System.out.print(item);
-            }
-            System.out.print("\n");
-        }
-    }
-
-    void print_out2d() {
-        for (int[] row : board) {
-            for (int item : row) {
-                System.out.print(item);
-            }
-            System.out.print("\n");
-        }
-        System.out.print("\n");
-
     }
 
 
@@ -211,8 +183,7 @@ class SudokuBoard {
 
     void solve() {
         if (BacktrackingSudokuSolver.solve(this)) {
-            print_out2d(board);
-            System.out.println(validate_full());
+            PrintOut2d.print_out2d(board);
         }
     }
 
@@ -254,5 +225,4 @@ class SudokuBoard {
     }
 
 }
-
 
