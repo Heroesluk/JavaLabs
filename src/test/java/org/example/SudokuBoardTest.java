@@ -1,5 +1,6 @@
 package org.example;
 
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
 import java.util.Arrays;
@@ -134,6 +135,67 @@ class SudokuBoardTest {
 
 
     }
+
+    @Test
+    void fields_test() {
+        SudokuBoard board1 = new SudokuBoard(9, 3);
+        board1.setF(0, 0, 9);
+        assertEquals(board1.getF(0, 0), 9);
+        board1.setF(0, 0, 0);
+        assertEquals(board1.getF(0, 0), 0);
+
+    }
+
+    @Test
+    void test_col() {
+        SudokuBoard board1 = new SudokuBoard(9, 3);
+        board1.setF(0, 0, 1);
+        board1.setF(1, 0, 5);
+        board1.setF(2, 0, 7);
+        board1.setF(3, 0, 9);
+        SudokuBoard.SudokuColumn col = board1.getCol(0);
+        assertTrue(col.verify());
+
+        board1.setF(4, 0, 9);
+        SudokuBoard.SudokuColumn col2 = board1.getCol(0);
+        assertFalse(col2.verify());
+
+
+    }
+
+    @Test
+    void test_row() {
+        SudokuBoard board1 = new SudokuBoard(9, 3);
+        board1.setF(0, 1, 1);
+        board1.setF(0, 2, 5);
+        board1.setF(0, 3, 7);
+        board1.setF(0, 4, 9);
+        SudokuBoard.SudokuColumn col = board1.getCol(0);
+        assertTrue(col.verify());
+
+        board1.setF(0, 0, 9);
+        SudokuBoard.SudokuColumn col2 = board1.getCol(0);
+        assertFalse(col2.verify());
+
+
+    }
+
+//    @Test
+//    void test_col() {
+//        SudokuBoard board1 = new SudokuBoard(9, 3);
+//        board1.setF(0, 0, 1);
+//        board1.setF(1, 0, 5);
+//        board1.setF(2, 0, 7);
+//        board1.setF(3, 0, 9);
+//        SudokuBoard.SudokuColumn col = board1.getCol(0);
+//        assertTrue(col.verify());
+//
+//        board1.setF(4, 0, 9);
+//        SudokuBoard.SudokuColumn col2 = board1.getCol(0);
+//        assertFalse(col2.verify());
+//
+//
+//    }
 
 
 }

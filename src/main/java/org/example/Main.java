@@ -49,6 +49,10 @@ class SudokuBoard {
             return value;
         }
 
+        SudokuField(int value){
+            this.value = value;
+        }
+
 
     }
 
@@ -108,6 +112,7 @@ class SudokuBoard {
         }
 
         public boolean verify() {
+
             return validate(fields);
         }
     }
@@ -116,6 +121,15 @@ class SudokuBoard {
     SudokuBoard(int size, int cells_per_row) {
         this.size = size;
         this.cells_per_row = cells_per_row;
+        this.fields = new SudokuField[size][size];
+        for(int i=0;i<size;i++){
+            for(int x=0;x<size;x++){
+                this.fields[i][x] = new SudokuField(0);
+
+            }
+        }
+
+
         board = new int[size][size];
         fill_board();
     }
@@ -177,8 +191,10 @@ class SudokuBoard {
     void fill_board(int[][] board) {
         for (int y = 0; y < size; y++) {
             System.arraycopy(board[y], 0, this.board[y], 0, size);
+
         }
     }
+
 
 
     int[][] get_cell(int cell_index) {
@@ -256,11 +272,27 @@ class SudokuBoard {
         return true;
     }
 
+//    SudokuRow getRow(Integer column){
+//        return new SudokuRow()
+//    }
+
 
     void solve() {
         if (BacktrackingSudokuSolver.solve(this)) {
             PrintOut2d.print_out2d(board);
         }
+    }
+
+    SudokuColumn getCol(Integer x) {
+        SudokuField[] fields = new SudokuField[9];
+        for (int y = 0; y < size; y++) {
+            fields[y] = new SudokuField(getF(y, x));
+
+        }
+
+
+        return new SudokuColumn(fields);
+
     }
 
 
