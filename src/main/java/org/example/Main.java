@@ -49,7 +49,7 @@ class SudokuBoard {
             return value;
         }
 
-        SudokuField(int value){
+        SudokuField(int value) {
             this.value = value;
         }
 
@@ -71,8 +71,8 @@ class SudokuBoard {
     @Override
     public String toString() {
         StringBuilder val = new StringBuilder();
-        for(SudokuField[] row: fields){
-            for(SudokuField field: row){
+        for (SudokuField[] row : fields) {
+            for (SudokuField field : row) {
                 val.append(field.get_field_value());
                 val.append(" ");
             }
@@ -136,8 +136,8 @@ class SudokuBoard {
         this.size = size;
         this.cells_per_row = cells_per_row;
         this.fields = new SudokuField[size][size];
-        for(int i=0;i<size;i++){
-            for(int x=0;x<size;x++){
+        for (int i = 0; i < size; i++) {
+            for (int x = 0; x < size; x++) {
                 this.fields[i][x] = new SudokuField(0);
 
             }
@@ -149,10 +149,6 @@ class SudokuBoard {
     }
 
 
-    int get(int posy, int posx) {
-        return board[posy][posx];
-
-    }
 
     void set(int posy, int posx, int num) {
         board[posy][posx] = num;
@@ -170,9 +166,9 @@ class SudokuBoard {
     }
 
     boolean check_if_legal(int posy, int posx, int num) {
-        setF(posy,posx,num);
+        setF(posy, posx, num);
         boolean test = validate_full();
-        setF(posy,posx,0);
+        setF(posy, posx, 0);
         return test;
     }
 
@@ -210,63 +206,6 @@ class SudokuBoard {
     }
 
 
-
-    int[][] get_cell(int cell_index) {
-        int y = cell_index / cells_per_row;
-        int x = cell_index % cells_per_row;
-        int[][] slice = new int[cell_size][cell_size];
-
-        for (int i = (y * cell_size); i < (y * cell_size) + cell_size; i++) {
-            slice[i - (y * cell_size)] = Arrays.copyOfRange(board[i], x * cell_size, (x * cell_size) + cell_size);
-        }
-
-        return slice;
-    }
-
-    int[] cell_to_arr(int[][] cell) {
-        int[] arr = new int[size];
-        int index = 0;
-        for (int[] row : cell) {
-            for (int item : row) {
-                arr[index] = item;
-                index++;
-            }
-
-
-        }
-
-        return arr;
-
-    }
-
-    int[] get_column(int x_cordinate) {
-        int[] column = new int[size];
-        for (int i = 0; i < size; i++) {
-            column[i] = board[i][x_cordinate];
-        }
-        return column;
-    }
-
-    int[] get_row(int y_cordinate) {
-        int[] row = new int[size];
-        System.arraycopy(board[y_cordinate], 0, row, 0, size);
-        return row;
-    }
-
-    boolean validate(int[] arr) {
-        Set<Integer> temp = new HashSet<>();
-        for (int item : arr) {
-            if (item != 0) {
-                Integer itm = item;
-                if (!temp.add(itm)) {
-                    return false;
-                }
-            }
-        }
-        return true;
-    }
-
-
     boolean validate_full() {
         for (int i = 0; i < size; i++) {
 
@@ -274,7 +213,7 @@ class SudokuBoard {
                 return false;
             }
 
-            if (!getCol(i).verify()) {
+            if (!getRow(i).verify()) {
                 return false;
             }
 
@@ -313,18 +252,19 @@ class SudokuBoard {
 
         return new SudokuRow(fields);
     }
-    SudokuBox getBox(Integer index){
+
+    SudokuBox getBox(Integer index) {
         SudokuField[] fields = new SudokuField[9];
 
 
         int y = index / cells_per_row;
         int x = index % cells_per_row;
 
-        int ind =0;
+        int ind = 0;
 
         for (int i = (y * cell_size); i < (y * cell_size) + cell_size; i++) {
-            for(int j = x * cell_size; j< (x * cell_size) + cell_size;j++){
-                fields[ind] = new SudokuField(getF(i,j));
+            for (int j = x * cell_size; j < (x * cell_size) + cell_size; j++) {
+                fields[ind] = new SudokuField(getF(i, j));
                 ind++;
 
             }
@@ -335,18 +275,15 @@ class SudokuBoard {
     }
 
 
-
-
-
-
-
-
     static class BacktrackingSudokuSolver implements SudokuSolver {
 
         public static boolean solve(SudokuBoard brd) {
             for (int row = 0; row < brd.size; row++) {
                 for (int col = 0; col < brd.size; col++) {
                     if (brd.getF(row, col) == 0) {
+                        Integer[] numbers = { 1, 2, 3, 4, 5, 6, 7,8,9 };
+
+
                         for (int n = 1; n <= 9; n++) {
                             if (brd.check_if_legal(row, col, n)) {
                                 brd.setF(row, col, n);
@@ -354,7 +291,7 @@ class SudokuBoard {
                                 if (solve(brd)) {
                                     return true;
                                 } else {
-                                    brd.set(row, col, n);
+                                    brd.setF(row, col, n);
                                 }
                             }
                         }
