@@ -25,8 +25,9 @@ class MessageFormatter {
 }
 
 
-class PrintOut2d{
+class PrintOut2d {
     public static void print_out2d(int[][] board2d) {
+
         for (int[] row : board2d) {
             for (int item : row) {
                 System.out.print(item);
@@ -37,14 +38,79 @@ class PrintOut2d{
 }
 
 class SudokuBoard {
+    class SudokuField {
+        private Integer value;
+
+        public void set_field_value(Integer val) {
+            value = val;
+        }
+
+        public Integer get_field_value() {
+            return value;
+        }
+
+
+    }
+
     //cells inside sudoku are numbered
     // 0 1 2
     // 3 4 5
     // 6 7 8
     private int[][] board;
+    private SudokuField[][] fields;
+
     int size;
     int cells_per_row;
     int cell_size = 3;
+
+
+    class SudokuPart {
+        protected SudokuField[] fields;
+
+
+        boolean validate(SudokuField[] arr) {
+            Set<Integer> temp = new HashSet<>();
+            for (SudokuField item : arr) {
+                if (item.get_field_value() != 0) {
+                    Integer itm = item.get_field_value();
+                    if (!temp.add(itm)) {
+                        return false;
+                    }
+                }
+            }
+            return true;
+        }
+    }
+
+    class SudokuRow extends SudokuPart {
+        SudokuRow(SudokuField[] fields) {
+            this.fields = fields;
+        }
+
+        public boolean verify() {
+            return validate(fields);
+        }
+    }
+
+    class SudokuColumn extends SudokuPart {
+        SudokuColumn(SudokuField[] fields) {
+            this.fields = fields;
+        }
+
+        public boolean verify() {
+            return validate(fields);
+        }
+    }
+
+    class SudokuGrid extends SudokuPart {
+        SudokuGrid(SudokuField[] fields) {
+            this.fields = fields;
+        }
+
+        public boolean verify() {
+            return validate(fields);
+        }
+    }
 
 
     SudokuBoard(int size, int cells_per_row) {
@@ -55,14 +121,24 @@ class SudokuBoard {
     }
 
 
-    int get(int posy, int posx){
+    int get(int posy, int posx) {
         return board[posy][posx];
 
     }
-    void set(int posy, int posx, int num){
+
+    void set(int posy, int posx, int num) {
         board[posy][posx] = num;
 
 
+    }
+
+    Integer getF(int posy, int posx) {
+        return fields[posy][posx].get_field_value();
+
+    }
+
+    void setF(int posy, int posx, Integer num) {
+        fields[posy][posx].set_field_value(num);
     }
 
     boolean check_if_legal(int posy, int posx, int num) {
@@ -193,18 +269,16 @@ class SudokuBoard {
         public static boolean solve(SudokuBoard brd) {
             for (int row = 0; row < brd.size; row++) {
                 for (int col = 0; col < brd.size; col++) {
-                    if (brd.get(row,col) == 0) {
+                    if (brd.get(row, col) == 0) {
                         for (int n = 1; n <= 9; n++) {
                             if (brd.check_if_legal(row, col, n)) {
-                                brd.set(row,col,n);
+                                brd.set(row, col, n);
 
                                 if (solve(brd)) {
                                     return true;
                                 } else {
-                                    brd.set(row,col,n);
-
+                                    brd.set(row, col, n);
                                 }
-
                             }
                         }
                         return false;
@@ -218,11 +292,12 @@ class SudokuBoard {
     }
 
 
-    interface SudokuSolver{
+    interface SudokuSolver {
         static boolean solve(SudokuBoard brd) {
             return false;
         }
     }
 
 }
+
 
