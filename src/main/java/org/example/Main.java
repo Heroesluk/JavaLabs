@@ -3,39 +3,8 @@ package org.example;
 import java.util.*;
 
 
-class Greeter {
-    MessageFormatter formatter;
-
-    Greeter(MessageFormatter formatter) {
-        this.formatter = formatter;
-
-    }
-
-    String greet(String who) {
-        return formatter.format(who);
-    }
 
 
-}
-
-class MessageFormatter {
-    String format(String message) {
-        return message;
-    }
-}
-
-
-class PrintOut2d {
-    public static void print_out2d(int[][] board2d) {
-
-        for (int[] row : board2d) {
-            for (int item : row) {
-                System.out.print(item);
-            }
-            System.out.print("\n");
-        }
-    }
-}
 
 class SudokuBoard {
     class SudokuField {
@@ -150,25 +119,20 @@ class SudokuBoard {
 
 
 
-    void set(int posy, int posx, int num) {
-        board[posy][posx] = num;
 
-
-    }
-
-    Integer getF(int posy, int posx) {
+    Integer get(int posy, int posx) {
         return fields[posy][posx].get_field_value();
 
     }
 
-    void setF(int posy, int posx, Integer num) {
+    void set(int posy, int posx, Integer num) {
         fields[posy][posx].set_field_value(num);
     }
 
     boolean check_if_legal(int posy, int posx, int num) {
-        setF(posy, posx, num);
+        set(posy, posx, num);
         boolean test = validate_full();
-        setF(posy, posx, 0);
+        set(posy, posx, 0);
         return test;
     }
 
@@ -226,10 +190,6 @@ class SudokuBoard {
         return true;
     }
 
-//    SudokuRow getRow(Integer column){
-//        return new SudokuRow()
-//    }
-
 
     void solve() {
         BacktrackingSudokuSolver.solve(this);
@@ -238,7 +198,7 @@ class SudokuBoard {
     SudokuColumn getCol(Integer x) {
         SudokuField[] fields = new SudokuField[9];
         for (int y = 0; y < size; y++) {
-            fields[y] = new SudokuField(getF(y, x));
+            fields[y] = new SudokuField(get(y, x));
         }
 
         return new SudokuColumn(fields);
@@ -247,7 +207,7 @@ class SudokuBoard {
     SudokuRow getRow(Integer y) {
         SudokuField[] fields = new SudokuField[9];
         for (int x = 0; x < size; x++) {
-            fields[x] = new SudokuField(getF(y, x));
+            fields[x] = new SudokuField(get(y, x));
         }
 
         return new SudokuRow(fields);
@@ -264,7 +224,7 @@ class SudokuBoard {
 
         for (int i = (y * cell_size); i < (y * cell_size) + cell_size; i++) {
             for (int j = x * cell_size; j < (x * cell_size) + cell_size; j++) {
-                fields[ind] = new SudokuField(getF(i, j));
+                fields[ind] = new SudokuField(get(i, j));
                 ind++;
 
             }
@@ -286,17 +246,17 @@ class SudokuBoard {
 
             for (int row = 0; row < brd.size; row++) {
                 for (int col = 0; col < brd.size; col++) {
-                    if (brd.getF(row, col) == 0) {
+                    if (brd.get(row, col) == 0) {
 
 
                         for (Integer num: list) {
                             if (brd.check_if_legal(row, col, num)) {
-                                brd.setF(row, col, num);
+                                brd.set(row, col, num);
 
                                 if (solve(brd)) {
                                     return true;
                                 } else {
-                                    brd.setF(row, col, num);
+                                    brd.set(row, col, num);
                                 }
                             }
                         }
