@@ -12,6 +12,8 @@ class SudokuBoardTest {
 
     SudokuBoard test_board = new SudokuBoard(9, 3);
 
+
+
     int[][] get_cell_input =
             {{1, 0, 0, 0, 2, 0, 0, 3, 0},
                     {0, 0, 0, 0, 0, 0, 0, 0, 0},
@@ -67,7 +69,6 @@ class SudokuBoardTest {
     void get_cell() {
         // for each 3x3 cell, there's one number, coresponding to cell index
         test_board.fill_board(get_cell_input);
-        PrintOut2d.print_out2d(test_board.copy_of_board());
 
         assertEquals(cell_sum(test_board.get_cell(0)), 1);
         assertEquals(cell_sum(test_board.get_cell(1)), 2);
@@ -129,9 +130,11 @@ class SudokuBoardTest {
         int[][] test = {{1, 0, 0, 0, 0, 0, 0, 0, 7}, {0, 0, 0, 0, 0, 0, 0, 0, 0}, {0, 0, 0, 0, 0, 0, 0, 0, 0}, {0, 0, 0, 0, 0, 0, 0, 0, 0}, {0, 0, 0, 5, 0, 0, 0, 0, 0}, {0, 0, 0, 0, 0, 0, 0, 0, 0}, {0, 0, 0, 0, 0, 0, 0, 0, 0}, {0, 0, 0, 0, 0, 0, 0, 0, 0}, {6, 0, 0, 0, 0, 0, 0, 0, 9}};
 
         board1.fill_board(test);
-        PrintOut2d.print_out2d(board1.copy_of_board());
         board1.solve();
         assertTrue(board1.validate_full());
+
+        System.out.println(board1);
+
 
 
     }

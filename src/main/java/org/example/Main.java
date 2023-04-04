@@ -68,6 +68,20 @@ class SudokuBoard {
     int cell_size = 3;
 
 
+    @Override
+    public String toString() {
+        StringBuilder val = new StringBuilder();
+        for(SudokuField[] row: fields){
+            for(SudokuField field: row){
+                val.append(field.get_field_value());
+                val.append(" ");
+            }
+            val.append("\n");
+
+        }
+        return val.toString();
+    }
+
     class SudokuPart {
         protected SudokuField[] fields;
 
@@ -279,9 +293,7 @@ class SudokuBoard {
 
 
     void solve() {
-        if (BacktrackingSudokuSolver.solve(this)) {
-            PrintOut2d.print_out2d(board);
-        }
+        BacktrackingSudokuSolver.solve(this);
     }
 
     SudokuColumn getCol(Integer x) {
