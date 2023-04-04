@@ -287,13 +287,23 @@ class SudokuBoard {
         SudokuField[] fields = new SudokuField[9];
         for (int y = 0; y < size; y++) {
             fields[y] = new SudokuField(getF(y, x));
-
         }
 
-
         return new SudokuColumn(fields);
-
     }
+
+    SudokuRow getRow(Integer y) {
+        SudokuField[] fields = new SudokuField[9];
+        for (int x = 0; x < size; x++) {
+            fields[x] = new SudokuField(getF(y, x));
+        }
+
+        return new SudokuRow(fields);
+    }
+
+
+
+
 
 
     static class BacktrackingSudokuSolver implements SudokuSolver {

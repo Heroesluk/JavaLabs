@@ -170,14 +170,12 @@ class SudokuBoardTest {
         board1.setF(0, 2, 5);
         board1.setF(0, 3, 7);
         board1.setF(0, 4, 9);
-        SudokuBoard.SudokuColumn col = board1.getCol(0);
-        assertTrue(col.verify());
+        SudokuBoard.SudokuRow row = board1.getRow(0);
+        assertTrue(row.verify());
 
         board1.setF(0, 0, 9);
-        SudokuBoard.SudokuColumn col2 = board1.getCol(0);
-        assertFalse(col2.verify());
-
-
+        SudokuBoard.SudokuRow row2 = board1.getRow(0);
+        assertFalse(row2.verify());
     }
 
 //    @Test
