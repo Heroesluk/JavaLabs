@@ -106,8 +106,8 @@ class SudokuBoard {
         }
     }
 
-    class SudokuGrid extends SudokuPart {
-        SudokuGrid(SudokuField[] fields) {
+    class SudokuBox extends SudokuPart {
+        SudokuBox(SudokuField[] fields) {
             this.fields = fields;
         }
 
@@ -300,6 +300,28 @@ class SudokuBoard {
 
         return new SudokuRow(fields);
     }
+    SudokuBox getBox(Integer index){
+        SudokuField[] fields = new SudokuField[9];
+
+
+        int y = index / cells_per_row;
+        int x = index % cells_per_row;
+
+        int ind =0;
+
+        for (int i = (y * cell_size); i < (y * cell_size) + cell_size; i++) {
+            for(int j = x * cell_size; j< (x * cell_size) + cell_size;j++){
+                fields[ind] = new SudokuField(getF(i,j));
+                ind++;
+
+            }
+        }
+
+        return new SudokuBox(fields);
+
+    }
+
+
 
 
 
