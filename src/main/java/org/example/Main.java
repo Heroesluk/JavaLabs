@@ -278,20 +278,25 @@ class SudokuBoard {
     static class BacktrackingSudokuSolver implements SudokuSolver {
 
         public static boolean solve(SudokuBoard brd) {
+            ArrayList<Integer> list = new ArrayList<>();
+            for (int i = 1; i < 10; i++) {
+                list.add(i);
+            }
+            Collections.shuffle(list);
+
             for (int row = 0; row < brd.size; row++) {
                 for (int col = 0; col < brd.size; col++) {
                     if (brd.getF(row, col) == 0) {
-                        Integer[] numbers = { 1, 2, 3, 4, 5, 6, 7,8,9 };
 
 
-                        for (int n = 1; n <= 9; n++) {
-                            if (brd.check_if_legal(row, col, n)) {
-                                brd.setF(row, col, n);
+                        for (Integer num: list) {
+                            if (brd.check_if_legal(row, col, num)) {
+                                brd.setF(row, col, num);
 
                                 if (solve(brd)) {
                                     return true;
                                 } else {
-                                    brd.setF(row, col, n);
+                                    brd.setF(row, col, num);
                                 }
                             }
                         }
