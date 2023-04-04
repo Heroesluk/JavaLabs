@@ -156,9 +156,9 @@ class SudokuBoard {
     }
 
     boolean check_if_legal(int posy, int posx, int num) {
-        board[posy][posx] = num;
+        setF(posy,posx,num);
         boolean test = validate_full();
-        board[posy][posx] = 0;
+        setF(posy,posx,0);
         return test;
     }
 
@@ -255,15 +255,16 @@ class SudokuBoard {
 
     boolean validate_full() {
         for (int i = 0; i < size; i++) {
-            if (!validate(get_column(i))) {
+
+            if (!getCol(i).verify()) {
                 return false;
             }
 
-            if (!validate(get_row(i))) {
+            if (!getCol(i).verify()) {
                 return false;
             }
 
-            if (!validate(cell_to_arr(get_cell(i)))) {
+            if (!getBox(i).verify()) {
                 return false;
             }
 
@@ -333,10 +334,10 @@ class SudokuBoard {
         public static boolean solve(SudokuBoard brd) {
             for (int row = 0; row < brd.size; row++) {
                 for (int col = 0; col < brd.size; col++) {
-                    if (brd.get(row, col) == 0) {
+                    if (brd.getF(row, col) == 0) {
                         for (int n = 1; n <= 9; n++) {
                             if (brd.check_if_legal(row, col, n)) {
-                                brd.set(row, col, n);
+                                brd.setF(row, col, n);
 
                                 if (solve(brd)) {
                                     return true;
