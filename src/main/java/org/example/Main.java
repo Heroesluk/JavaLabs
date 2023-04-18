@@ -36,10 +36,12 @@ class SudokuBoard {
     int cells_per_row;
     int cell_size = 3;
 
+    StringBuilder val;
+
 
     @Override
     public String toString() {
-        StringBuilder val = new StringBuilder();
+        val = new StringBuilder();
         for (SudokuField[] row : fields) {
             for (SudokuField field : row) {
                 val.append(field.get_field_value());
@@ -164,7 +166,9 @@ class SudokuBoard {
 
     void fill_board(int[][] board) {
         for (int y = 0; y < size; y++) {
-            System.arraycopy(board[y], 0, this.board[y], 0, size);
+            for(int x=0;x<size;x++){
+                this.fields[y][x].set_field_value(board[y][x]);
+            }
 
         }
     }
@@ -256,7 +260,7 @@ class SudokuBoard {
                                 if (solve(brd)) {
                                     return true;
                                 } else {
-                                    brd.set(row, col, num);
+                                    brd.set(row, col, 0);
                                 }
                             }
                         }
