@@ -3,6 +3,48 @@ package org.example;
 import java.util.*;
 
 
+class FixedSizeList<T> extends ArrayList<T> {
+    public FixedSizeList(int size) {
+        super(size);
+        for (int i = 0; i < size; i++) {
+            super.add(null);
+        }
+
+    }
+
+    @Override
+    public void clear() {
+        throw new UnsupportedOperationException("Elements may not be cleared from a fixed size List.");
+    }
+
+    @Override
+    public boolean add(T o) {
+        throw new UnsupportedOperationException("Elements may not be added to a fixed size List, use set() instead.");
+    }
+
+    @Override
+    public void add(int index, T element) {
+        throw new UnsupportedOperationException("Elements may not be added to a fixed size List, use set() instead.");
+    }
+
+    @Override
+    public T remove(int index) {
+        throw new UnsupportedOperationException("Elements may not be removed from a fixed size List.");
+    }
+
+    @Override
+    public boolean remove(Object o) {
+        throw new UnsupportedOperationException("Elements may not be removed from a fixed size List.");
+    }
+
+    @Override
+    protected void removeRange(int fromIndex, int toIndex) {
+        throw new UnsupportedOperationException("Elements may not be removed from a fixed size List.");
+    }
+
+}
+
+
 class SudokuBoard {
     class SudokuField {
         private Integer value;
@@ -27,6 +69,7 @@ class SudokuBoard {
     // 3 4 5
     // 6 7 8
     private SudokuField[][] fields;
+    private FixedSizeList<FixedSizeList<SudokuField>> fields2;
 
     int size;
     int cells_per_row;
@@ -38,7 +81,7 @@ class SudokuBoard {
     @Override
     public String toString() {
         val = new StringBuilder();
-        for (SudokuField[] row : fields) {
+        for (FixedSizeList<SudokuField> row : fields2) {
             for (SudokuField field : row) {
                 val.append(field.get_field_value());
                 val.append(" ");
@@ -50,10 +93,10 @@ class SudokuBoard {
     }
 
     class SudokuPart {
-        protected SudokuField[] fields;
+        protected FixedSizeList<SudokuField> fields;
 
 
-        boolean validate(SudokuField[] arr) {
+        boolean validate(FixedSizeList<SudokuField> arr) {
             Set<Integer> temp = new HashSet<>();
             for (SudokuField item : arr) {
                 if (item.get_field_value() != 0) {
@@ -68,7 +111,7 @@ class SudokuBoard {
     }
 
     class SudokuRow extends SudokuPart {
-        SudokuRow(SudokuField[] fields) {
+        SudokuRow(FixedSizeList<SudokuField> fields) {
             this.fields = fields;
         }
 
@@ -78,7 +121,7 @@ class SudokuBoard {
     }
 
     class SudokuColumn extends SudokuPart {
-        SudokuColumn(SudokuField[] fields) {
+        SudokuColumn(FixedSizeList<SudokuField> fields) {
             this.fields = fields;
         }
 
@@ -88,7 +131,7 @@ class SudokuBoard {
     }
 
     class SudokuBox extends SudokuPart {
-        SudokuBox(SudokuField[] fields) {
+        SudokuBox(FixedSizeList<SudokuField> fields) {
             this.fields = fields;
         }
 
@@ -102,25 +145,38 @@ class SudokuBoard {
     SudokuBoard(int size, int cells_per_row) {
         this.size = size;
         this.cells_per_row = cells_per_row;
-        this.fields = new SudokuField[size][size];
+
+        this.fields2 = new FixedSizeList<>(9);
+
+        for (int i = 0; i < 9; i++) {
+            FixedSizeList<SudokuField> field1 = new FixedSizeList<>(9);
+            fields2.set(i, field1);
+        }
+
+
         for (int i = 0; i < size; i++) {
             for (int x = 0; x < size; x++) {
-                this.fields[i][x] = new SudokuField(0);
+                this.fields2.get(i).set(x, new SudokuField(0));
 
             }
         }
+
 
 
     }
 
 
     Integer get(int posy, int posx) {
-        return fields[posy][posx].get_field_value();
+//        return fields[posy][posx].get_field_value();
+        return fields2.get(posy).get(posx).get_field_value();
+
 
     }
 
     void set(int posy, int posx, Integer num) {
-        fields[posy][posx].set_field_value(num);
+//        fields[posy][posx].set_field_value(num);
+        fields2.get(posy).get(posx).set_field_value(num);
+
     }
 
     boolean check_if_legal(int posy, int posx, int num) {
@@ -134,7 +190,10 @@ class SudokuBoard {
     void fill_board(int[][] board) {
         for (int y = 0; y < size; y++) {
             for (int x = 0; x < size; x++) {
-                this.fields[y][x].set_field_value(board[y][x]);
+//                this.fields[y][x].set_field_value(board[y][x]);
+                this.fields2.get(y).get(x).set_field_value(board[y][x]);
+
+
             }
 
         }
@@ -167,25 +226,28 @@ class SudokuBoard {
     }
 
     SudokuColumn getCol(Integer x) {
-        SudokuField[] fields = new SudokuField[9];
+//        SudokuField[] fields = new SudokuField[9];
+        FixedSizeList<SudokuField> fields = new FixedSizeList<>(9);
         for (int y = 0; y < size; y++) {
-            fields[y] = new SudokuField(get(y, x));
+//            fields[y] = new SudokuField(get(y, x));
+            fields.set(y,new SudokuField(get(y, x)));
+
         }
 
         return new SudokuColumn(fields);
     }
 
     SudokuRow getRow(Integer y) {
-        SudokuField[] fields = new SudokuField[9];
+        FixedSizeList<SudokuField> fields = new FixedSizeList<>(9);
         for (int x = 0; x < size; x++) {
-            fields[x] = new SudokuField(get(y, x));
+            fields.set(x,new SudokuField(get(y, x)));
         }
 
         return new SudokuRow(fields);
     }
 
     SudokuBox getBox(Integer index) {
-        SudokuField[] fields = new SudokuField[9];
+        FixedSizeList<SudokuField> fields = new FixedSizeList<>(9);
 
 
         int y = index / cells_per_row;
@@ -195,7 +257,7 @@ class SudokuBoard {
 
         for (int i = (y * cell_size); i < (y * cell_size) + cell_size; i++) {
             for (int j = x * cell_size; j < (x * cell_size) + cell_size; j++) {
-                fields[ind] = new SudokuField(get(i, j));
+                fields.set(ind,new SudokuField(get(i, j)));
                 ind++;
 
             }
