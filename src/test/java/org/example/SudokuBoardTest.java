@@ -12,8 +12,6 @@ class SudokuBoardTest {
 
     @Test
     void constructor() {
-        assertEquals(test_board.copy_of_board().length, 9);
-        assertEquals(test_board.copy_of_board()[0].length, 9);
 
     }
 

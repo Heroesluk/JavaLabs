@@ -3,9 +3,6 @@ package org.example;
 import java.util.*;
 
 
-
-
-
 class SudokuBoard {
     class SudokuField {
         private Integer value;
@@ -29,7 +26,6 @@ class SudokuBoard {
     // 0 1 2
     // 3 4 5
     // 6 7 8
-    private int[][] board;
     private SudokuField[][] fields;
 
     int size;
@@ -115,11 +111,7 @@ class SudokuBoard {
         }
 
 
-        board = new int[size][size];
-        fill_board();
     }
-
-
 
 
     Integer get(int posy, int posx) {
@@ -138,35 +130,10 @@ class SudokuBoard {
         return test;
     }
 
-    int[][] copy_of_board() {
-        int[][] cboard = new int[board.length][];
-        for (int i = 0; i < board.length; i++)
-            cboard[i] = board[i].clone();
-
-        return cboard;
-    }
-
-    int[] random_order() {
-        ArrayList<Integer> list = new ArrayList<>();
-        for (int i = 1; i < 10; i++) {
-            list.add(i);
-        }
-        Collections.shuffle(list);
-        return list.stream().mapToInt(i -> i).toArray();
-    }
-
-
-    void fill_board() {
-        for (int y = 0; y < size; y++) {
-            for (int x = 0; x < size; x++) {
-                board[y][x] = 0;
-            }
-        }
-    }
 
     void fill_board(int[][] board) {
         for (int y = 0; y < size; y++) {
-            for(int x=0;x<size;x++){
+            for (int x = 0; x < size; x++) {
                 this.fields[y][x].set_field_value(board[y][x]);
             }
 
@@ -253,7 +220,7 @@ class SudokuBoard {
                     if (brd.get(row, col) == 0) {
 
 
-                        for (Integer num: list) {
+                        for (Integer num : list) {
                             if (brd.check_if_legal(row, col, num)) {
                                 brd.set(row, col, num);
 
