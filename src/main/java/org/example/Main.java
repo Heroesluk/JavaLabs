@@ -174,7 +174,6 @@ class SudokuBoard {
     }
 
     void set(int posy, int posx, Integer num) {
-//        fields[posy][posx].set_field_value(num);
         fields2.get(posy).get(posx).set_field_value(num);
 
     }
@@ -190,7 +189,6 @@ class SudokuBoard {
     void fill_board(int[][] board) {
         for (int y = 0; y < size; y++) {
             for (int x = 0; x < size; x++) {
-//                this.fields[y][x].set_field_value(board[y][x]);
                 this.fields2.get(y).get(x).set_field_value(board[y][x]);
 
 
@@ -226,10 +224,8 @@ class SudokuBoard {
     }
 
     SudokuColumn getCol(Integer x) {
-//        SudokuField[] fields = new SudokuField[9];
         FixedSizeList<SudokuField> fields = new FixedSizeList<>(9);
         for (int y = 0; y < size; y++) {
-//            fields[y] = new SudokuField(get(y, x));
             fields.set(y,new SudokuField(get(y, x)));
 
         }
