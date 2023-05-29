@@ -14,5 +14,11 @@ public class SudokuBox extends SudokuPart {
         return validate(fields);
     }
 
+    @Override
+    public String toString() {
+        ToStringBuilder b1 = new ToStringBuilder(this).append(super.toString());
+        return b1.toString();
+    }
+
 
 }

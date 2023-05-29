@@ -1,5 +1,7 @@
 package org.example;
 
+import org.apache.commons.lang3.builder.ToStringBuilder;
+
 import java.util.List;
 
 public class SudokuColumn extends SudokuPart {
@@ -9,5 +11,11 @@ public class SudokuColumn extends SudokuPart {
 
     public boolean verify() {
         return validate(fields);
+    }
+
+    @Override
+    public String toString() {
+        ToStringBuilder b1 = new ToStringBuilder(this).append(super.toString());
+        return b1.toString();
     }
 }
