@@ -3,48 +3,6 @@ package org.example;
 import java.util.*;
 
 
-class FixedSizeList<T> extends ArrayList<T> {
-    public FixedSizeList(int size) {
-        super(size);
-        for (int i = 0; i < size; i++) {
-            super.add(null);
-        }
-
-    }
-
-    @Override
-    public void clear() {
-        throw new UnsupportedOperationException("Elements may not be cleared from a fixed size List.");
-    }
-
-    @Override
-    public boolean add(T o) {
-        throw new UnsupportedOperationException("Elements may not be added to a fixed size List, use set() instead.");
-    }
-
-    @Override
-    public void add(int index, T element) {
-        throw new UnsupportedOperationException("Elements may not be added to a fixed size List, use set() instead.");
-    }
-
-    @Override
-    public T remove(int index) {
-        throw new UnsupportedOperationException("Elements may not be removed from a fixed size List.");
-    }
-
-    @Override
-    public boolean remove(Object o) {
-        throw new UnsupportedOperationException("Elements may not be removed from a fixed size List.");
-    }
-
-    @Override
-    protected void removeRange(int fromIndex, int toIndex) {
-        throw new UnsupportedOperationException("Elements may not be removed from a fixed size List.");
-    }
-
-}
-
-
 class SudokuBoard {
     class SudokuField {
         private Integer value;
@@ -69,7 +27,7 @@ class SudokuBoard {
     // 3 4 5
     // 6 7 8
     private SudokuField[][] fields;
-    private FixedSizeList<FixedSizeList<SudokuField>> fields2;
+    private LinkedHashMap<Integer, SudokuField> fields2 = new LinkedHashMap<>();
 
     int size;
     int cells_per_row;
@@ -81,22 +39,25 @@ class SudokuBoard {
     @Override
     public String toString() {
         val = new StringBuilder();
-        for (FixedSizeList<SudokuField> row : fields2) {
-            for (SudokuField field : row) {
-                val.append(field.get_field_value());
-                val.append(" ");
+        for (Map.Entry<Integer, SudokuField> entry : fields2.entrySet()) {
+            if (entry.getKey() % 9 == 0 && entry.getKey() != 0) {
+                val.append("\n");
+
             }
-            val.append("\n");
+            val.append(entry.getValue().get_field_value());
+
+            val.append(" ");
+
 
         }
         return val.toString();
     }
 
     class SudokuPart {
-        protected FixedSizeList<SudokuField> fields;
+        protected List<SudokuField> fields;
 
 
-        boolean validate(FixedSizeList<SudokuField> arr) {
+        boolean validate(List<SudokuField> arr) {
             Set<Integer> temp = new HashSet<>();
             for (SudokuField item : arr) {
                 if (item.get_field_value() != 0) {
@@ -111,7 +72,7 @@ class SudokuBoard {
     }
 
     class SudokuRow extends SudokuPart {
-        SudokuRow(FixedSizeList<SudokuField> fields) {
+        SudokuRow(List<SudokuField> fields) {
             this.fields = fields;
         }
 
@@ -121,7 +82,7 @@ class SudokuBoard {
     }
 
     class SudokuColumn extends SudokuPart {
-        SudokuColumn(FixedSizeList<SudokuField> fields) {
+        SudokuColumn(List<SudokuField> fields) {
             this.fields = fields;
         }
 
@@ -131,7 +92,7 @@ class SudokuBoard {
     }
 
     class SudokuBox extends SudokuPart {
-        SudokuBox(FixedSizeList<SudokuField> fields) {
+        SudokuBox(List<SudokuField> fields) {
             this.fields = fields;
         }
 
@@ -146,35 +107,21 @@ class SudokuBoard {
         this.size = size;
         this.cells_per_row = cells_per_row;
 
-        this.fields2 = new FixedSizeList<>(9);
-
-        for (int i = 0; i < 9; i++) {
-            FixedSizeList<SudokuField> field1 = new FixedSizeList<>(9);
-            fields2.set(i, field1);
+        for (int i = 0; i < 81; i++) {
+            fields2.put(i, new SudokuField(0));
         }
-
-
-        for (int i = 0; i < size; i++) {
-            for (int x = 0; x < size; x++) {
-                this.fields2.get(i).set(x, new SudokuField(0));
-
-            }
-        }
-
 
 
     }
 
 
     Integer get(int posy, int posx) {
-//        return fields[posy][posx].get_field_value();
-        return fields2.get(posy).get(posx).get_field_value();
-
+        return fields2.get((posy * 9) + posx).get_field_value();
 
     }
 
     void set(int posy, int posx, Integer num) {
-        fields2.get(posy).get(posx).set_field_value(num);
+        fields2.get((posy * 9) + posx).set_field_value(num);
 
     }
 
@@ -183,18 +130,6 @@ class SudokuBoard {
         boolean test = validate_full();
         set(posy, posx, 0);
         return test;
-    }
-
-
-    void fill_board(int[][] board) {
-        for (int y = 0; y < size; y++) {
-            for (int x = 0; x < size; x++) {
-                this.fields2.get(y).get(x).set_field_value(board[y][x]);
-
-
-            }
-
-        }
     }
 
 
@@ -224,9 +159,9 @@ class SudokuBoard {
     }
 
     SudokuColumn getCol(Integer x) {
-        FixedSizeList<SudokuField> fields = new FixedSizeList<>(9);
+        List<SudokuField> fields = new ArrayList<>();
         for (int y = 0; y < size; y++) {
-            fields.set(y,new SudokuField(get(y, x)));
+            fields.add(new SudokuField(get(y, x)));
 
         }
 
@@ -234,27 +169,23 @@ class SudokuBoard {
     }
 
     SudokuRow getRow(Integer y) {
-        FixedSizeList<SudokuField> fields = new FixedSizeList<>(9);
+        List<SudokuField> fields = new ArrayList<>();
         for (int x = 0; x < size; x++) {
-            fields.set(x,new SudokuField(get(y, x)));
+            fields.add(new SudokuField(get(y, x)));
         }
 
         return new SudokuRow(fields);
     }
 
     SudokuBox getBox(Integer index) {
-        FixedSizeList<SudokuField> fields = new FixedSizeList<>(9);
-
+        List<SudokuField> fields = new ArrayList<>();
 
         int y = index / cells_per_row;
         int x = index % cells_per_row;
 
-        int ind = 0;
-
         for (int i = (y * cell_size); i < (y * cell_size) + cell_size; i++) {
             for (int j = x * cell_size; j < (x * cell_size) + cell_size; j++) {
-                fields.set(ind,new SudokuField(get(i, j)));
-                ind++;
+                fields.add(new SudokuField(get(i, j)));
 
             }
         }

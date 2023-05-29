@@ -31,7 +31,6 @@ class SudokuBoardTest {
 
 
 
-        board1.fill_board(test);
         System.out.println(board1);
         board1.solve();
         assertTrue(board1.validate_full());
