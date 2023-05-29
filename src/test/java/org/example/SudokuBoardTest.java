@@ -123,7 +123,6 @@ class SudokuFieldsTests {
 
         Assertions.assertNotEquals(c1, b1);
 
-
     }
 
     @Test
