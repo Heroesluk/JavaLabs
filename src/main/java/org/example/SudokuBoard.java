@@ -1,10 +1,11 @@
 package org.example;
 
 import java.util.*;
+import java.io.Serializable;
 
 
 //TODO LICENSES, GLUON
-public class SudokuBoard {
+public class SudokuBoard implements Serializable {
 
     @Override
     public boolean equals(Object o) {
@@ -31,9 +32,6 @@ public class SudokuBoard {
     int size;
     int cells_per_row;
     int cell_size = 3;
-
-
-
 
 
     StringBuilder val;

@@ -3,12 +3,27 @@ package org.example;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+
+class DaoTest {
+    @Test
+    void testDao() throws IOException, ClassNotFoundException {
+        SudokuBoard test_board = new SudokuBoard(9, 3);
+        test_board.solve();
+        Dao<SudokuBoard> dao = SudokuBoardDaoFactory.getFileDao("Test.dat");
+        dao.write(test_board);
+        SudokuBoard read_board = dao.read();
+
+        Assertions.assertEquals(test_board, read_board);
+
+    }
+}
 
 class SudokuBoardTest {
 
@@ -141,19 +156,20 @@ class SudokuFieldsTests {
     }
 
     @Test
-    public void testFieldEquals(){
+    public void testFieldEquals() {
         SudokuField f = new SudokuField(2);
         SudokuField f2 = new SudokuField(2);
 
-        assertEquals(f,f2);
+        assertEquals(f, f2);
 
         SudokuField f3 = new SudokuField(3);
-        assertNotEquals(f,f3);
+        assertNotEquals(f, f3);
 
 
     }
+
     @Test
-    public void testPartsEquals(){
+    public void testPartsEquals() {
         List<SudokuField> f = new ArrayList<>();
         for (int i = 0; i < 9; i++) {
             f.add(new SudokuField(i));
@@ -162,11 +178,11 @@ class SudokuFieldsTests {
         SudokuColumn c1 = new SudokuColumn(List.copyOf(f));
         SudokuColumn c2 = new SudokuColumn(List.copyOf(f));
 
-        assertEquals(c1,c2);
+        assertEquals(c1, c2);
 
         Collections.shuffle(f);
         SudokuColumn c3 = new SudokuColumn(f);
-        assertNotEquals(c1,c3);
+        assertNotEquals(c1, c3);
 
 
     }

@@ -4,7 +4,9 @@ import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 
-public class SudokuField {
+import java.io.Serializable;
+
+public class SudokuField implements Serializable {
     private Integer value;
 
     public void set_field_value(Integer val) {
