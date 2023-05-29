@@ -1,8 +1,14 @@
 package org.example;
 
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+
 import static org.junit.jupiter.api.Assertions.*;
+
 
 class SudokuBoardTest {
 
@@ -20,15 +26,14 @@ class SudokuBoardTest {
     void solve() {
         SudokuBoard board1 = new SudokuBoard(9, 3);
         int[][] test = {{1, 0, 4, 0, 0, 0, 0, 8, 7},
-                        {0, 0, 0, 0, 0, 0, 0, 0, 0},
-                        {0, 0, 0, 0, 0, 0, 0, 0, 0},
-                        {0, 0, 0, 0, 0, 0, 0, 0, 0},
-                        {0, 0, 0, 5, 0, 0, 0, 0, 0},
-                        {0, 0, 0, 0, 0, 0, 0, 0, 0},
-                        {0, 0, 0, 0, 0, 0, 0, 0, 0},
-                        {0, 0, 0, 0, 0, 0, 0, 0, 0},
-                        {6, 0, 0, 0, 0, 0, 0, 0, 9}};
-
+                {0, 0, 0, 0, 0, 0, 0, 0, 0},
+                {0, 0, 0, 0, 0, 0, 0, 0, 0},
+                {0, 0, 0, 0, 0, 0, 0, 0, 0},
+                {0, 0, 0, 5, 0, 0, 0, 0, 0},
+                {0, 0, 0, 0, 0, 0, 0, 0, 0},
+                {0, 0, 0, 0, 0, 0, 0, 0, 0},
+                {0, 0, 0, 0, 0, 0, 0, 0, 0},
+                {6, 0, 0, 0, 0, 0, 0, 0, 9}};
 
 
         System.out.println(board1);
@@ -102,5 +107,69 @@ class SudokuBoardTest {
 
     }
 
+
+}
+
+class SudokuFieldsTests {
+
+    @Test
+    public void t1() {
+        List<SudokuField> f = new ArrayList<>();
+        for (int i = 0; i < 9; i++) {
+            f.add(new SudokuField(i));
+        }
+        SudokuColumn c1 = new SudokuColumn(f);
+        SudokuBox b1 = new SudokuBox(f);
+
+        Assertions.assertNotEquals(c1, b1);
+
+
+    }
+
+    @Test
+    public void tostr() {
+        List<SudokuField> f = new ArrayList<>();
+        for (int i = 0; i < 9; i++) {
+            f.add(new SudokuField(i));
+        }
+        SudokuColumn c1 = new SudokuColumn(f);
+        SudokuBox b1 = new SudokuBox(f);
+        SudokuRow r1 = new SudokuRow(f);
+
+        System.out.println(b1);
+        System.out.println(c1);
+        System.out.println(r1);
+    }
+
+    @Test
+    public void testFieldEquals(){
+        SudokuField f = new SudokuField(2);
+        SudokuField f2 = new SudokuField(2);
+
+        assertEquals(f,f2);
+
+        SudokuField f3 = new SudokuField(3);
+        assertNotEquals(f,f3);
+
+
+    }
+    @Test
+    public void testPartsEquals(){
+        List<SudokuField> f = new ArrayList<>();
+        for (int i = 0; i < 9; i++) {
+            f.add(new SudokuField(i));
+        }
+
+        SudokuColumn c1 = new SudokuColumn(List.copyOf(f));
+        SudokuColumn c2 = new SudokuColumn(List.copyOf(f));
+
+        assertEquals(c1,c2);
+
+        Collections.shuffle(f);
+        SudokuColumn c3 = new SudokuColumn(f);
+        assertNotEquals(c1,c3);
+
+
+    }
 
 }

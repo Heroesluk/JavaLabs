@@ -9,6 +9,7 @@ public class SudokuRow extends SudokuPart {
 
     }
 
+
     public boolean verify() {
         return validate(fields);
     }

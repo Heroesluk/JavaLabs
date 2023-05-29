@@ -6,11 +6,26 @@ import java.util.*;
 
 public class SudokuBoard {
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+
+        if (o == null || getClass() != o.getClass()) return false;
+
+        SudokuBoard board = (SudokuBoard) o;
+
+        return new org.apache.commons.lang3.builder.EqualsBuilder().append(fields2, board.fields2).isEquals();
+    }
+
+    @Override
+    public int hashCode() {
+        return new org.apache.commons.lang3.builder.HashCodeBuilder(17, 37).append(fields2).toHashCode();
+    }
+
     //cells inside sudoku are numbered
     // 0 1 2
     // 3 4 5
     // 6 7 8
-    private SudokuField[][] fields;
     private LinkedHashMap<Integer, SudokuField> fields2 = new LinkedHashMap<>();
 
     int size;
