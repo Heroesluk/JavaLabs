@@ -7,6 +7,7 @@
     <groupId>org.example</groupId>
     <artifactId>ComponentProgramming</artifactId>
     <version>1.0-SNAPSHOT</version>
+    <packaging>pom</packaging>
 
     <properties>
         <java.version>17</java.version>
@@ -27,6 +28,12 @@
             <email>242209@edu.p.lodz.pl</email>
         </developer>
     </developers>
+
+
+    <modules>
+        <module>Model</module>
+        <module>View</module>
+    </modules>
 
     <dependencies>
         <dependency>
