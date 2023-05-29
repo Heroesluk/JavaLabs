@@ -57,11 +57,11 @@ class SudokuBoardTest {
         board1.set(1, 0, 5);
         board1.set(2, 0, 7);
         board1.set(3, 0, 9);
-        SudokuBoard.SudokuColumn col = board1.getCol(0);
+        SudokuColumn col = board1.getCol(0);
         assertTrue(col.verify());
 
         board1.set(4, 0, 9);
-        SudokuBoard.SudokuColumn col2 = board1.getCol(0);
+        SudokuColumn col2 = board1.getCol(0);
         assertFalse(col2.verify());
 
 
@@ -74,11 +74,11 @@ class SudokuBoardTest {
         board1.set(0, 2, 5);
         board1.set(0, 3, 7);
         board1.set(0, 4, 9);
-        SudokuBoard.SudokuRow row = board1.getRow(0);
+        SudokuRow row = board1.getRow(0);
         assertTrue(row.verify());
 
         board1.set(0, 0, 9);
-        SudokuBoard.SudokuRow row2 = board1.getRow(0);
+        SudokuRow row2 = board1.getRow(0);
         assertFalse(row2.verify());
     }
 
@@ -92,11 +92,11 @@ class SudokuBoardTest {
         board1.set(4, 1, 5);
         board1.set(5, 1, 6);
 
-        SudokuBoard.SudokuBox box = board1.getBox(3);
+        SudokuBox box = board1.getBox(3);
         assertTrue(box.verify());
 
         board1.set(3, 2, 1);
-        SudokuBoard.SudokuBox box1 = board1.getBox(3);
+        SudokuBox box1 = board1.getBox(3);
         assertFalse(box1.verify());
 
 

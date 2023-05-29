@@ -3,24 +3,8 @@ package org.example;
 import java.util.*;
 
 
-class SudokuBoard {
-    class SudokuField {
-        private Integer value;
 
-        public void set_field_value(Integer val) {
-            value = val;
-        }
-
-        public Integer get_field_value() {
-            return value;
-        }
-
-        SudokuField(int value) {
-            this.value = value;
-        }
-
-
-    }
+public class SudokuBoard {
 
     //cells inside sudoku are numbered
     // 0 1 2
@@ -32,6 +16,10 @@ class SudokuBoard {
     int size;
     int cells_per_row;
     int cell_size = 3;
+
+
+
+
 
     StringBuilder val;
 
@@ -51,55 +39,6 @@ class SudokuBoard {
 
         }
         return val.toString();
-    }
-
-    class SudokuPart {
-        protected List<SudokuField> fields;
-
-
-        boolean validate(List<SudokuField> arr) {
-            Set<Integer> temp = new HashSet<>();
-            for (SudokuField item : arr) {
-                if (item.get_field_value() != 0) {
-                    Integer itm = item.get_field_value();
-                    if (!temp.add(itm)) {
-                        return false;
-                    }
-                }
-            }
-            return true;
-        }
-    }
-
-    class SudokuRow extends SudokuPart {
-        SudokuRow(List<SudokuField> fields) {
-            this.fields = fields;
-        }
-
-        public boolean verify() {
-            return validate(fields);
-        }
-    }
-
-    class SudokuColumn extends SudokuPart {
-        SudokuColumn(List<SudokuField> fields) {
-            this.fields = fields;
-        }
-
-        public boolean verify() {
-            return validate(fields);
-        }
-    }
-
-    class SudokuBox extends SudokuPart {
-        SudokuBox(List<SudokuField> fields) {
-            this.fields = fields;
-        }
-
-        public boolean verify() {
-
-            return validate(fields);
-        }
     }
 
 
